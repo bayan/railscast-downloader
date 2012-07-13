@@ -41,7 +41,7 @@
   [& args]
   (let [media-format (or (first args) "mp4")]
     (binding [*token* (clojure.string/trim (slurp "token"))]
-      (doseq [episode-uri (mapcat episode-links (first (html-pages)))]
+      (doseq [episode-uri (mapcat episode-links (html-pages))]
         (let [uri (media-link episode-uri media-format)
               source (:body (get-as-stream uri))
               target (java.io.File. (last (clojure.string/split uri #"/")))]
