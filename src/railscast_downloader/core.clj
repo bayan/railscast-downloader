@@ -43,6 +43,10 @@
     (binding [*token* (clojure.string/trim (slurp "token"))]
       (doseq [episode-uri (mapcat episode-links (html-pages))]
         (let [uri (media-link episode-uri media-format)
-              source (:body (get-as-stream uri))
-              target (java.io.File. (last (clojure.string/split uri #"/")))]
-          (clojure.java.io/copy source target))))))
+              filename (last (clojure.string/split uri #"/"))
+              target (java.io.File. filename)]
+          (if (.exists target)
+            (println filename "already exists")
+            (do
+              (clojure.java.io/copy (:body (get-as-stream uri)) target)
+              (println filename "downloaded successfully"))))))))
