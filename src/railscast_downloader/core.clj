@@ -5,6 +5,12 @@
 
 (declare ^:dynamic *token*)
 
+(def log-agent (agent nil))
+
+(defn log
+  [message]
+  (send log-agent (fn [_] (println message))))
+
 (def root-uri "http://railscasts.com")
 
 (defn get-as-stream
@@ -42,10 +48,10 @@
   (let [filename (last (clojure.string/split uri #"/"))
         target (java.io.File. filename)]
     (if (.exists target)
-      (println filename "already exists")
+      (log (str filename " already exists"))
       (do
         (clojure.java.io/copy (:body (get-as-stream uri)) target)
-        (println filename "downloaded successfully")))))
+        (log (str filename " downloaded successfully"))))))
 
 (defn download-all
   [media-format]
@@ -56,4 +62,6 @@
   [& args]
   (binding [*token* (clojure.string/trim (slurp "token"))]
     (let [media-format (or (first args) "mp4")]
-      (download-all media-format))))
+      (download-all media-format)
+      (await log-agent)
+      (shutdown-agents))))
