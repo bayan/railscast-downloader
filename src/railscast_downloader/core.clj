@@ -37,16 +37,23 @@
         link (enlive/select page selector)]
     (-> link first :attrs :href)))
 
+(defn download-media-file
+  [uri]
+  (let [filename (last (clojure.string/split uri #"/"))
+        target (java.io.File. filename)]
+    (if (.exists target)
+      (println filename "already exists")
+      (do
+        (clojure.java.io/copy (:body (get-as-stream uri)) target)
+        (println filename "downloaded successfully")))))
+
+(defn download-all
+  [media-format]
+  (doseq [episode-uri (mapcat episode-links (html-pages))]
+    (download-media-file (media-link episode-uri media-format))))
+
 (defn -main
   [& args]
-  (let [media-format (or (first args) "mp4")]
-    (binding [*token* (clojure.string/trim (slurp "token"))]
-      (doseq [episode-uri (mapcat episode-links (html-pages))]
-        (let [uri (media-link episode-uri media-format)
-              filename (last (clojure.string/split uri #"/"))
-              target (java.io.File. filename)]
-          (if (.exists target)
-            (println filename "already exists")
-            (do
-              (clojure.java.io/copy (:body (get-as-stream uri)) target)
-              (println filename "downloaded successfully"))))))))
+  (binding [*token* (clojure.string/trim (slurp "token"))]
+    (let [media-format (or (first args) "mp4")]
+      (download-all media-format))))
