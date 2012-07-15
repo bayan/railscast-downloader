@@ -4,14 +4,12 @@
             [net.cgrand.enlive-html :as enlive]))
 
 (declare ^:dynamic *token*)
-
+(def root-uri "http://railscasts.com")
 (def log-agent (agent nil))
 
 (defn log
   [message]
   (send log-agent (fn [_] (println message))))
-
-(def root-uri "http://railscasts.com")
 
 (defn get-as-stream
   [uri]
