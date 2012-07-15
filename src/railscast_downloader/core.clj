@@ -49,8 +49,8 @@
 
 (defn download-all
   [media-format]
-  (doseq [episode-uri (mapcat episode-links (html-pages))]
-    (download-media-file (media-link episode-uri media-format))))
+  (doseq [_ (pmap (fn [episode-uri] (download-media-file (media-link episode-uri media-format)))
+                  (mapcat episode-links (html-pages)))]))
 
 (defn -main
   [& args]
