@@ -8,8 +8,8 @@
 (def log-agent (agent nil))
 
 (defn log
-  [message]
-  (send log-agent (fn [_] (println message))))
+  [& messages]
+  (send log-agent (fn [_] (apply println messages))))
 
 (defn get-as-stream
   [uri]
@@ -46,10 +46,10 @@
   (let [filename (last (clojure.string/split uri #"/"))
         target (java.io.File. filename)]
     (if (.exists target)
-      (log (str filename " already exists"))
+      (log filename "already exists")
       (do
         (clojure.java.io/copy (:body (get-as-stream uri)) target)
-        (log (str filename " downloaded successfully"))))))
+        (log filename "downloaded successfully")))))
 
 (defn download-all
   [media-format]
