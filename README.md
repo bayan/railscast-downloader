@@ -2,24 +2,38 @@
 
 A tool to download all railscasts videos - including pro and revised
 
+Files that already exist will not be downloaded again
+
 ## Usage
-
-Log into railscasts.com using your github account.
-
-You will need to copy the value for the "token" cookie and store it in a file named: "token".
 
 Download [the precompiled jar file](http://github.com/downloads/bayan/railscast-downloader/railscast-downloader.jar).
 
+Follow the instructions below depending on which format(s) you wish to download.
+
+
+### Downloading m4v, webm and ogv formats
+
+Downloading formats other than mp4 requires scraping the railscasts website.
+
+Log into [railscasts.com](http://railscasts.com) using your [github](http://github.com) account.
+
+Copy the value for the "token" cookie.
+
 Start downloading by running the following command:
 
-    java -jar railscast-downloader.jar
+java -jar railscast-downloader.jar -type _media-format_ -token _your-token_
 
-By default, mp4 files will be downloaded. You can override this by passing in an alternative format:
 
-    java -jar railscast-downloader.jar ogv
+### Downloading mp4 videos
 
-Currently available formats on railscasts.com are: mp4, m4v, webm and ogv
+It is far more efficient to use the rss feed to synchronize the mp4 videos.
 
-Files that already exist will not be downloaded again
+Log into [railscasts.com](http://railscasts.com).
 
-The code works with the current directory (the directory that it is run from). This means that it will look for the token and previously downloaded files within the current directory. It also means that the screencasts will be downloaded to the current working directory.
+Click the [Manage Subscription](https://railscasts.com/subscriptions/current) link.
+
+Copy the "RSS Feed" link.
+
+Start downloading by running the following command:
+
+java -jar railscast-downloader.jar -rss _your-rss-link_
