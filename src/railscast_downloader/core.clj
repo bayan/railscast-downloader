@@ -69,7 +69,7 @@
   (let [uris (if (and *rss-uri* (= *file-type* "mp4"))
                (media-links-from-rss-feed)
                (mapcat episode-links (html-pages)))]
-    (doseq [_ (pmap download-media-file uris)])))
+    (doall (pmap download-media-file uris))))
 
 (defn -main
   [& args]
