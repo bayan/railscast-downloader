@@ -1,6 +1,4 @@
-(ns railscast-downloader.core
-  (:gen-class)
-  (:require clojure.xml))
+(require 'clojure.xml)
 
 (def log
   (let [log-agent (agent nil)]
@@ -14,11 +12,9 @@
                 (.getBytes "UTF-8")
                 java.io.ByteArrayInputStream.
                 clojure.xml/parse
-                xml-seq)
-        xml (filter #(= :enclosure (:tag %)) xml)]
-    (map #(-> % (get-in [:attrs :url])
-                (clojure.string/replace #"mp4$" file-type))
-         xml)))
+                xml-seq)]
+    (map #(-> % (get-in [:attrs :url]) (clojure.string/replace #"mp4$" file-type))
+         (filter #(= :enclosure (:tag %)) xml))))
 
 (defn download-media-file
   [uri]
@@ -30,11 +26,9 @@
         (clojure.java.io/copy (clojure.java.io/input-stream uri) target)
         (log filename "downloaded successfully")))))
 
-(defn -main
-  [& args]
-  (let [arg-map (apply hash-map args)
-        rss-uri (.replace (str (arg-map "-rss")) "\"" "")
-        file-type (or (arg-map "-type") "mp4")]
-    (doall (pmap download-media-file
-                 (media-links-from-rss-feed rss-uri file-type)))
-    (shutdown-agents)))
+(let [arg-map (apply hash-map *command-line-args*)
+      rss-uri (.replace (str (arg-map "-rss")) "\"" "")
+      file-type (or (arg-map "-type") "mp4")]
+  (doall (pmap download-media-file
+               (media-links-from-rss-feed rss-uri file-type)))
+  (shutdown-agents))
