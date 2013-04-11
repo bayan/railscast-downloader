@@ -30,7 +30,7 @@ Copy the "RSS Feed" link.
 
 Run the railscast-download.clj script from the command line:
 
-    clj railscast-download.clj -rss _your-rss-link_ -type _media-format_
+    clj railscast-download.clj -rss your-rss-link -type media-format
 
 Where _media-format_ is one of: mp4, m4v, webm or ogv
 
