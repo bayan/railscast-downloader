@@ -1,14 +1,14 @@
-# railscast-downloader
+The fastest tool to download ALL [railscasts.com](http://railscasts.com) videos in any format.
 
-A tool to download all railscasts videos - including pro and revised
+Includes pro and revised videos.
 
-Files that already exist will not be downloaded again
+Skips existing files.
 
 ## Prerequisites
 
-This script requires the ability to run a Clojure file, which in turn depends on the Java run time.
+This script requires the ability to run a [Clojure](http://clojure.org/downloads) file, which in turn depends on the Java run time.
 
-### Running a Clojure clj file
+### Running a [Clojure](http://clojure.org/downloads) clj file
 
 Download the latest [Clojure](http://clojure.org/downloads) jar file.
 
@@ -18,7 +18,7 @@ Run the clj file like this:
 
     clj my-script.clj
 
-[Homebrew](http://brew.sh) has a Clojure formula that automates the above process.
+[Homebrew](http://brew.sh) has a [Clojure](http://clojure.org/downloads) formula that automates the above process.
 
 ## Usage
 
