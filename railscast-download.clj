@@ -6,7 +6,7 @@
     (send log-agent (fn [_] (apply println messages)))
     (await log-agent)))
 
-(defn get-uris
+(defn extract-uris
   [uri format]
   (let [xml (-> (slurp uri)
                 (.getBytes "UTF-8")
@@ -29,5 +29,5 @@
 (let [args   (apply hash-map *command-line-args*)
       rss    (clojure.string/replace (get args "-rss" "") "\"" "")
       format (get args "-type" "mp4")]
-  (doall (pmap download (get-uris rss format)))
+  (doall (pmap download (extract-uris rss format)))
   (shutdown-agents))
