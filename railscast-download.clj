@@ -1,10 +1,10 @@
 (require 'clojure.xml)
 
-(def log
-  (let [log-agent (agent nil)]
-    (fn [& messages]
-      (send log-agent (fn [_] (apply println messages)))
-      (await log-agent))))
+(let [log-agent (agent nil)]
+  (defn log
+    [& messages]
+    (send log-agent (fn [_] (apply println messages)))
+    (await log-agent)))
 
 (defn get-uris
   [uri format]
