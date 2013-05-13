@@ -8,13 +8,9 @@
 
 (defn extract-uris
   [uri format]
-  (let [xml (-> (slurp uri)
-                (.getBytes "UTF-8")
-                java.io.ByteArrayInputStream.
-                clojure.xml/parse
-                xml-seq)]
-    (map #(-> % (get-in [:attrs :url]) (clojure.string/replace #"mp4$" format))
-         (filter #(= :enclosure (:tag %)) xml))))
+  (let [xml  (xml-seq (clojure.xml/parse uri))
+        tags (filter #(= :enclosure (:tag %)) xml)]
+    (map #(clojure.string/replace (get-in % [:attrs :url]) #"mp4$" format) tags)))
 
 (defn download
   [uri]
