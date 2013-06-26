@@ -18,7 +18,7 @@ Run the clj file like this:
 
     clj my-script.clj
 
-[Homebrew](http://brew.sh) has a [Clojure](http://clojure.org/downloads) formula that automates the above process.
+[Homebrew](http://brew.sh) has a [Clojure](http://clojure.org/downloads) [formula](https://github.com/mxcl/homebrew/blob/master/Library/Formula/clojure.rb) that automates the above process.
 
 ## Usage
 
