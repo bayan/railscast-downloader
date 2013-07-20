@@ -25,5 +25,5 @@
 (let [args   (apply hash-map *command-line-args*)
       rss    (clojure.string/replace (get args "-rss" "") "\"" "")
       format (get args "-type" "mp4")]
-  (doall (pmap download (extract-uris rss format)))
+  (dorun (pmap download (extract-uris rss format)))
   (shutdown-agents))
