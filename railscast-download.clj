@@ -8,9 +8,10 @@
 
 (defn extract-uris
   [uri format]
-  (let [xml  (xml-seq (clojure.xml/parse uri))
+  (let [uri  (str uri "?ext=" format)
+        xml  (xml-seq (clojure.xml/parse uri))
         tags (filter #(= :enclosure (:tag %)) xml)]
-    (map #(clojure.string/replace (get-in % [:attrs :url]) #"mp4$" format) tags)))
+    (map #(get-in % [:attrs :url]) tags)))
 
 (defn download
   [uri]
